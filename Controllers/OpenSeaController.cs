@@ -149,4 +149,27 @@ public class OpenSeaController : BaseApiController
         return x;
 
     }
+    [HttpGet, Route("GetCollection")]
+    public List<teste> Get5Minutes(string collectionSlug)
+    {
+        var x = _dataContext.db_AssetEvent
+            .Where(x=>x.CollectionSlug == collectionSlug)
+            .GroupBy(x => new { x.CollectionSlug})
+            //.Join(_dataContext.db_Collection,)
+            .Select(x => new teste
+            {
+                CollectionSlug = x.Key.CollectionSlug,
+                mean_price = x.Average(a=> Convert.ToDouble(a.TotalPrice)),
+                total = x.Sum(a=>Convert.ToDouble(a.Quantity)),
+                NumResults = x.Count(),
+                collection_image_url =   x.Select(x => x.Asset.Collection.ImageUrl).FirstOrDefault(),
+                collection_name    =   x.Select(x => x.Asset.Collection.Name).FirstOrDefault() 
+
+            })
+            .ToList();
+
+
+        return x;
+
+    }
 }
