@@ -24,32 +24,33 @@ public class OpenSeaController : BaseApiController
     [HttpGet]
     public async Task<ActionResult<string>> GetCollection()
     {
-        DateTime LastReceived = _openSeaRepository.GetLastAddedSale().AddHours(1);
+        DateTime LastReceived = _openSeaRepository.GetLastAddedSale();
 
         if (DateTime.Equals(LastReceived, DateTime.Parse("01/01/0001 01:00:00")))
         {
             LastReceived = DateTime.Now.AddMinutes(-1);
         }
         string occurred_after = ((DateTimeOffset)LastReceived).ToUnixTimeSeconds().ToString();
-        string occurred_before = ((DateTimeOffset)LastReceived.AddMinutes(5)).ToUnixTimeSeconds().ToString();
+        string occurred_before = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds().ToString();
 
 
 
-        (CustomEvent obj, int result) = await OpenSeaSave(null, occurred_after, occurred_before);
+        (Event obj, int result) = await OpenSeaSave(null, occurred_after, occurred_before);
 
         while (obj.Next != null)
         {
             (obj, int result2) = await OpenSeaSave(obj.Next, occurred_after, occurred_before);
             result = result + result2;
+            occurred_before = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds().ToString();
         }
 
         return Ok("occurred_after: " + occurred_after + "\noccurred_before: " + occurred_before + "\nAdded:  " + result.ToString());
     }
     [NonAction]
-    public async Task<(CustomEvent, int)> OpenSeaSave(string? next, string occurred_after, string occurred_before)
+    public async Task<(Event, int)> OpenSeaSave(string? next, string occurred_after, string occurred_before)
     {
-        CustomEvent? obj = await GetOpenSea(next, occurred_before, occurred_after);
-        foreach (CustomAssetEvent item in obj.AssetEvents)
+        Event? obj = await GetOpenSea(next, occurred_before, occurred_after);
+        foreach (AssetEvent item in obj.AssetEvents)
         {
             await _dataContext.db_AssetEvent.AddAsync(item);
         }
@@ -58,7 +59,7 @@ public class OpenSeaController : BaseApiController
     }
 
     [NonAction]
-    public async Task<CustomEvent?> GetOpenSea(string? next, string occurred_before, string occurred_after)
+    public async Task<Event?> GetOpenSea(string? next, string occurred_before, string occurred_after)
     {
         var client = new RestClient("https://api.opensea.io/api/v1");
 
@@ -80,7 +81,7 @@ public class OpenSeaController : BaseApiController
         {
             request.AddQueryParameter("cursor", next);
         }
-        CustomEvent? result = await client.GetAsync<CustomEvent>(request);
+        Event? result = await client.GetAsync<Event>(request);
 
         return result;
 
@@ -94,8 +95,14 @@ public class OpenSeaController : BaseApiController
         public double mean_price { get; set; }
         public double total { get; set; }
         public double NumResults { get; set; }
-        public string collection_image_url { get; set; }
-        public string collection_name { get; set; }
+        public string? collection_image_url { get; set; }
+        public string? collection_name { get; set; }
+        public string? collection_discord_url { get; set; }
+        public string? collection_telegram_url { get; set; }
+        public string? collection_twitter_username { get; set; }
+        public string? collection_instagram_username { get; set; }
+        public string? collection_wiki_url { get; set; }
+
 
     }
     [HttpGet, Route("x_minutesByMinutes")]
@@ -103,8 +110,8 @@ public class OpenSeaController : BaseApiController
     {
         Minutes = Minutes + 60;
         var x = _dataContext.db_AssetEvent
-            .Where(x=>(x.EventTimestamp <=  DateTime.Now) & (x.EventTimestamp >= DateTime.Now.AddMinutes(-Minutes)))
-            .GroupBy(x => new { x.CollectionSlug})
+            .Where(x => (x.EventTimestamp <=  DateTime.Now) & (x.EventTimestamp >= DateTime.Now.AddMinutes(-Minutes)) )
+            .GroupBy(x => new {x.CollectionSlug})
             .Select(x => new teste
             {
                 CollectionSlug = x.Key.CollectionSlug,
@@ -112,33 +119,17 @@ public class OpenSeaController : BaseApiController
                 total = x.Sum(a=>Convert.ToDouble(a.Quantity)),
                 NumResults = x.Count(),
                 collection_image_url =   x.Select(x => x.Asset.Collection.ImageUrl).FirstOrDefault(),
-                collection_name    =   x.Select(x => x.Asset.Collection.Name).FirstOrDefault() 
+                collection_name    =   x.Select(x => x.Asset.Collection.Name).FirstOrDefault() ,
+                collection_discord_url = x.Select(x=>x.Asset.Collection.DiscordUrl).FirstOrDefault(),
+                collection_telegram_url = x.Select(x=>x.Asset.Collection.TelegramUrl).FirstOrDefault(),
+                collection_twitter_username = x.Select(x=>x.Asset.Collection.TwitterUsername).FirstOrDefault(),
+                collection_instagram_username = x.Select(x=>x.Asset.Collection.InstagramUsername).FirstOrDefault(),
+                collection_wiki_url = x.Select(x=>x.Asset.Collection.WikiUrl).FirstOrDefault()
+                
+                
             })
+            .OrderByDescending(x=>x.total)
             .ToList();
-
-
-        return x;
-
-    }
-     [HttpGet, Route("By5Minutes")]
-    public List<teste> Get5Minutes()
-    {
-        var x = _dataContext.db_AssetEvent
-            .Where(x=>x.EventTimestamp <=  DateTime.Now & x.EventTimestamp >= DateTime.Now.AddMinutes(-65))
-            .GroupBy(x => new { x.CollectionSlug})
-            .Select(x => new teste
-            {
-                CollectionSlug = x.Key.CollectionSlug,
-                mean_price = x.Average(a=> Convert.ToDouble(a.TotalPrice)),
-                total = x.Sum(a=>Convert.ToDouble(a.Quantity)),
-                NumResults = x.Count(),
-                collection_image_url =   x.Select(x => x.Asset.Collection.ImageUrl).FirstOrDefault(),
-                collection_name    =   x.Select(x => x.Asset.Collection.Name).FirstOrDefault() 
-
-            })
-            .ToList();
-
-
         return x;
 
     }

@@ -2,13 +2,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace OpenSeaWebApi.Models;
-public class CustomAssetEvent
+public class AssetEvent
 {
     [Key]
     public int primary_key_Id { get; set; }
 
     [JsonPropertyName("asset")]
-    public CustomAsset? Asset { get; set; }
+    public Asset? Asset { get; set; }
 
     [JsonPropertyName("event_type")]
     public string? EventType { get; set; }

@@ -35,11 +35,11 @@ public class DataContext : IdentityDbContext<
             .HasForeignKey<AppUserConfig>(b => b.AppUser_id);
         
 
-        builder.Entity<CustomDisplayData>()
-            .Property(e => e.Images)
-            .HasConversion(
-                v => string.Join(',', v),
-                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
+        //builder.Entity<DisplayData>()
+        //    .Property(e => e.Images)
+        //    .HasConversion(
+        //        v => string.Join(',', v),
+        //        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
 
         #endregion
     }
@@ -47,8 +47,8 @@ public class DataContext : IdentityDbContext<
     #region DbSet
         public DbSet<AppUser> db_AppUser { get; set; }
         public DbSet<AppUserConfig> db_configUser { get; set; }
-        public DbSet<CustomAssetEvent> db_AssetEvent { get; set; } 
-        public DbSet<CustomCollection> db_Collection { get; set; }    
+        public DbSet<AssetEvent> db_AssetEvent { get; set; } 
+        public DbSet<Collection> db_Collection { get; set; }    
     #endregion
 
 }

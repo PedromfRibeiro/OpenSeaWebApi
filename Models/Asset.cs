@@ -2,10 +2,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace OpenSeaWebApi.Models;
-public class CustomAsset
+public class Asset
 {
     [Key]
-    public int primary_key_Id { get; set; }
+    public int primary_key_Id { get; set; } 
+    [JsonPropertyName("collection")]
+    public Collection? Collection { get; set; }
+    [JsonPropertyName("token_id")]
+    public string? TokenId { get; set; }
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
@@ -38,13 +42,8 @@ public class CustomAsset
 
     [JsonPropertyName("description")]
     public string? Description { get; set; }
-
     [JsonPropertyName("external_link")]
     public string? ExternalLink { get; set; }
-
-    [JsonPropertyName("asset_contract")]
-    public CustomAssetContract? AssetContract { get; set; }
-
     [JsonPropertyName("permalink")]
     public string? Permalink { get; set; }
 
@@ -56,12 +55,4 @@ public class CustomAsset
 
     [JsonPropertyName("is_nsfw")]
     public bool? IsNsfw { get; set; }
-
-    [JsonPropertyName("owner")]
-    public CustomOwner? Owner { get; set; }
-
-    [JsonPropertyName("token_id")]
-    public string? TokenId { get; set; }
-    [JsonPropertyName("collection")]
-    public CustomCollection? Collection { get; set; }
 }

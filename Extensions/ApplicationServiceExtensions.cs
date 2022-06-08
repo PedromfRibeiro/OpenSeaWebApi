@@ -17,8 +17,8 @@ public static class ApplicationServiceExtensions
         Services.AddControllers().AddNewtonsoftJson(o =>
         {
             o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            o.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            o.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Ignore;
+            //o.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Ignore;
+            //o.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             o.SerializerSettings.TypeNameHandling = TypeNameHandling.None;
 
             //o.SerializerSettings.DefaultValueHandling    = DefaultValueHandling.Ignore;

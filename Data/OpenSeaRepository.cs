@@ -40,7 +40,7 @@ public class OpenSeaRepository : IOpenSeaRepository
         return x;
 
     }
-    public CustomAssetEvent GetListOneMinute()
+    public AssetEvent GetListOneMinute()
     {
         return _context.db_AssetEvent.SingleOrDefault();
 

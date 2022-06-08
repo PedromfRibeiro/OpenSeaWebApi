@@ -12,8 +12,8 @@ using OpenSeaWebApi.Data;
 namespace OpenSeaWebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220608131648_InitialCommitHeroku")]
-    partial class InitialCommitHeroku
+    [Migration("20220608215619_RemoveCustomTag")]
+    partial class RemoveCustomTag
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -172,7 +172,7 @@ namespace OpenSeaWebApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -185,7 +185,7 @@ namespace OpenSeaWebApi.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("LastLogin")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -275,7 +275,7 @@ namespace OpenSeaWebApi.Migrations
                     b.ToTable("db_configUser");
                 });
 
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomAsset", b =>
+            modelBuilder.Entity("OpenSeaWebApi.Models.Asset", b =>
                 {
                     b.Property<int>("primary_key_Id")
                         .ValueGeneratedOnAdd()
@@ -288,9 +288,6 @@ namespace OpenSeaWebApi.Migrations
 
                     b.Property<string>("AnimationUrl")
                         .HasColumnType("text");
-
-                    b.Property<int?>("AssetContractprimary_key_Id")
-                        .HasColumnType("integer");
 
                     b.Property<string>("BackgroundColor")
                         .HasColumnType("text");
@@ -331,9 +328,6 @@ namespace OpenSeaWebApi.Migrations
                     b.Property<int>("NumSales")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Ownerprimary_key_Id")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Permalink")
                         .HasColumnType("text");
 
@@ -345,95 +339,12 @@ namespace OpenSeaWebApi.Migrations
 
                     b.HasKey("primary_key_Id");
 
-                    b.HasIndex("AssetContractprimary_key_Id");
-
                     b.HasIndex("Collectionprimary_key_Id");
 
-                    b.HasIndex("Ownerprimary_key_Id");
-
-                    b.ToTable("CustomAsset");
+                    b.ToTable("Asset");
                 });
 
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomAssetContract", b =>
-                {
-                    b.Property<int>("primary_key_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("primary_key_Id"));
-
-                    b.Property<string>("Address")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AssetContractType")
-                        .HasColumnType("text");
-
-                    b.Property<int>("BuyerFeeBasisPoints")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("DefaultToFiat")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<int>("DevBuyerFeeBasisPoints")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DevSellerFeeBasisPoints")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ExternalLink")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NftVersion")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("OnlyProxiedTransfers")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("OpenseaBuyerFeeBasisPoints")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("OpenseaSellerFeeBasisPoints")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("OpenseaVersion")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("Owner")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("PayoutAddress")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SchemaName")
-                        .HasColumnType("text");
-
-                    b.Property<int>("SellerFeeBasisPoints")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Symbol")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TotalSupply")
-                        .HasColumnType("text");
-
-                    b.HasKey("primary_key_Id");
-
-                    b.ToTable("CustomAssetContract");
-                });
-
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomAssetEvent", b =>
+            modelBuilder.Entity("OpenSeaWebApi.Models.AssetEvent", b =>
                 {
                     b.Property<int>("primary_key_Id")
                         .ValueGeneratedOnAdd()
@@ -451,7 +362,7 @@ namespace OpenSeaWebApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("EventTimestamp")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("EventType")
                         .HasColumnType("text");
@@ -472,7 +383,7 @@ namespace OpenSeaWebApi.Migrations
                     b.ToTable("db_AssetEvent");
                 });
 
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomCollection", b =>
+            modelBuilder.Entity("OpenSeaWebApi.Models.Collection", b =>
                 {
                     b.Property<int>("primary_key_Id")
                         .ValueGeneratedOnAdd()
@@ -487,7 +398,7 @@ namespace OpenSeaWebApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("DefaultToFiat")
                         .HasColumnType("boolean");
@@ -503,9 +414,6 @@ namespace OpenSeaWebApi.Migrations
 
                     b.Property<string>("DiscordUrl")
                         .HasColumnType("text");
-
-                    b.Property<int?>("DisplayDataprimary_key_Id")
-                        .HasColumnType("integer");
 
                     b.Property<string>("ExternalUrl")
                         .HasColumnType("text");
@@ -578,74 +486,7 @@ namespace OpenSeaWebApi.Migrations
 
                     b.HasKey("primary_key_Id");
 
-                    b.HasIndex("DisplayDataprimary_key_Id");
-
                     b.ToTable("db_Collection");
-                });
-
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomDisplayData", b =>
-                {
-                    b.Property<int>("primary_key_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("primary_key_Id"));
-
-                    b.Property<string>("CardDisplayStyle")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Images")
-                        .HasColumnType("text");
-
-                    b.HasKey("primary_key_Id");
-
-                    b.ToTable("CustomDisplayData");
-                });
-
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomOwner", b =>
-                {
-                    b.Property<int>("primary_key_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("primary_key_Id"));
-
-                    b.Property<string>("Address")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Config")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ProfileImgUrl")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("Userprimary_key_Id")
-                        .HasColumnType("integer");
-
-                    b.HasKey("primary_key_Id");
-
-                    b.HasIndex("Userprimary_key_Id");
-
-                    b.ToTable("CustomOwner");
-                });
-
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomUser", b =>
-                {
-                    b.Property<int>("primary_key_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("primary_key_Id"));
-
-                    b.Property<string>("Username")
-                        .HasColumnType("text");
-
-                    b.HasKey("primary_key_Id");
-
-                    b.ToTable("CustomUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -709,52 +550,22 @@ namespace OpenSeaWebApi.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomAsset", b =>
+            modelBuilder.Entity("OpenSeaWebApi.Models.Asset", b =>
                 {
-                    b.HasOne("OpenSeaWebApi.Models.CustomAssetContract", "AssetContract")
-                        .WithMany()
-                        .HasForeignKey("AssetContractprimary_key_Id");
-
-                    b.HasOne("OpenSeaWebApi.Models.CustomCollection", "Collection")
+                    b.HasOne("OpenSeaWebApi.Models.Collection", "Collection")
                         .WithMany()
                         .HasForeignKey("Collectionprimary_key_Id");
 
-                    b.HasOne("OpenSeaWebApi.Models.CustomOwner", "Owner")
-                        .WithMany()
-                        .HasForeignKey("Ownerprimary_key_Id");
-
-                    b.Navigation("AssetContract");
-
                     b.Navigation("Collection");
-
-                    b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomAssetEvent", b =>
+            modelBuilder.Entity("OpenSeaWebApi.Models.AssetEvent", b =>
                 {
-                    b.HasOne("OpenSeaWebApi.Models.CustomAsset", "Asset")
+                    b.HasOne("OpenSeaWebApi.Models.Asset", "Asset")
                         .WithMany()
                         .HasForeignKey("Assetprimary_key_Id");
 
                     b.Navigation("Asset");
-                });
-
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomCollection", b =>
-                {
-                    b.HasOne("OpenSeaWebApi.Models.CustomDisplayData", "DisplayData")
-                        .WithMany()
-                        .HasForeignKey("DisplayDataprimary_key_Id");
-
-                    b.Navigation("DisplayData");
-                });
-
-            modelBuilder.Entity("OpenSeaWebApi.Models.CustomOwner", b =>
-                {
-                    b.HasOne("OpenSeaWebApi.Models.CustomUser", "User")
-                        .WithMany()
-                        .HasForeignKey("Userprimary_key_Id");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OpenSeaWebApi.Models.AppUser", b =>

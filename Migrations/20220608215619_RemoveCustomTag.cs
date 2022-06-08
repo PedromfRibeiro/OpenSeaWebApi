@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace OpenSeaWebApi.Migrations
 {
-    public partial class InitialCommitHeroku : Migration
+    public partial class RemoveCustomTag : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,8 +38,8 @@ namespace OpenSeaWebApi.Migrations
                     observations = table.Column<string>(type: "text", nullable: true),
                     company_id = table.Column<int>(type: "integer", nullable: true),
                     FirstLogin = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastLogin = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastLogin = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -61,64 +61,46 @@ namespace OpenSeaWebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomAssetContract",
+                name: "db_Collection",
                 columns: table => new
                 {
                     primary_key_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    AssetContractType = table.Column<string>(type: "text", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    NftVersion = table.Column<string>(type: "text", nullable: true),
-                    OpenseaVersion = table.Column<string>(type: "text", nullable: true),
-                    Owner = table.Column<int>(type: "integer", nullable: true),
-                    SchemaName = table.Column<string>(type: "text", nullable: true),
-                    Symbol = table.Column<string>(type: "text", nullable: true),
-                    TotalSupply = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    ExternalLink = table.Column<string>(type: "text", nullable: true),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    BannerImageUrl = table.Column<string>(type: "text", nullable: true),
+                    ChatUrl = table.Column<string>(type: "text", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     DefaultToFiat = table.Column<bool>(type: "boolean", nullable: false),
-                    DevBuyerFeeBasisPoints = table.Column<int>(type: "integer", nullable: false),
-                    DevSellerFeeBasisPoints = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    DevBuyerFeeBasisPoints = table.Column<string>(type: "text", nullable: true),
+                    DevSellerFeeBasisPoints = table.Column<string>(type: "text", nullable: true),
+                    DiscordUrl = table.Column<string>(type: "text", nullable: true),
+                    ExternalUrl = table.Column<string>(type: "text", nullable: true),
+                    Featured = table.Column<bool>(type: "boolean", nullable: false),
+                    FeaturedImageUrl = table.Column<string>(type: "text", nullable: true),
+                    Hidden = table.Column<bool>(type: "boolean", nullable: false),
+                    SafelistRequestStatus = table.Column<string>(type: "text", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    IsSubjectToWhitelist = table.Column<bool>(type: "boolean", nullable: false),
+                    LargeImageUrl = table.Column<string>(type: "text", nullable: true),
+                    MediumUsername = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
                     OnlyProxiedTransfers = table.Column<bool>(type: "boolean", nullable: false),
-                    OpenseaBuyerFeeBasisPoints = table.Column<int>(type: "integer", nullable: false),
-                    OpenseaSellerFeeBasisPoints = table.Column<int>(type: "integer", nullable: false),
-                    BuyerFeeBasisPoints = table.Column<int>(type: "integer", nullable: false),
-                    SellerFeeBasisPoints = table.Column<int>(type: "integer", nullable: false),
-                    PayoutAddress = table.Column<string>(type: "text", nullable: true)
+                    OpenseaBuyerFeeBasisPoints = table.Column<string>(type: "text", nullable: true),
+                    OpenseaSellerFeeBasisPoints = table.Column<string>(type: "text", nullable: true),
+                    PayoutAddress = table.Column<string>(type: "text", nullable: true),
+                    RequireEmail = table.Column<bool>(type: "boolean", nullable: false),
+                    ShortDescription = table.Column<string>(type: "text", nullable: true),
+                    Slug = table.Column<string>(type: "text", nullable: true),
+                    TelegramUrl = table.Column<string>(type: "text", nullable: true),
+                    TwitterUsername = table.Column<string>(type: "text", nullable: true),
+                    InstagramUsername = table.Column<string>(type: "text", nullable: true),
+                    WikiUrl = table.Column<string>(type: "text", nullable: true),
+                    IsNsfw = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomAssetContract", x => x.primary_key_Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CustomDisplayData",
-                columns: table => new
-                {
-                    primary_key_Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CardDisplayStyle = table.Column<string>(type: "text", nullable: true),
-                    Images = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomDisplayData", x => x.primary_key_Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CustomUser",
-                columns: table => new
-                {
-                    primary_key_Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Username = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomUser", x => x.primary_key_Id);
+                    table.PrimaryKey("PK_db_Collection", x => x.primary_key_Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,82 +231,13 @@ namespace OpenSeaWebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "db_Collection",
+                name: "Asset",
                 columns: table => new
                 {
                     primary_key_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    BannerImageUrl = table.Column<string>(type: "text", nullable: true),
-                    ChatUrl = table.Column<string>(type: "text", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DefaultToFiat = table.Column<bool>(type: "boolean", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    DevBuyerFeeBasisPoints = table.Column<string>(type: "text", nullable: true),
-                    DevSellerFeeBasisPoints = table.Column<string>(type: "text", nullable: true),
-                    DiscordUrl = table.Column<string>(type: "text", nullable: true),
-                    DisplayDataprimary_key_Id = table.Column<int>(type: "integer", nullable: true),
-                    ExternalUrl = table.Column<string>(type: "text", nullable: true),
-                    Featured = table.Column<bool>(type: "boolean", nullable: false),
-                    FeaturedImageUrl = table.Column<string>(type: "text", nullable: true),
-                    Hidden = table.Column<bool>(type: "boolean", nullable: false),
-                    SafelistRequestStatus = table.Column<string>(type: "text", nullable: true),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    IsSubjectToWhitelist = table.Column<bool>(type: "boolean", nullable: false),
-                    LargeImageUrl = table.Column<string>(type: "text", nullable: true),
-                    MediumUsername = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    OnlyProxiedTransfers = table.Column<bool>(type: "boolean", nullable: false),
-                    OpenseaBuyerFeeBasisPoints = table.Column<string>(type: "text", nullable: true),
-                    OpenseaSellerFeeBasisPoints = table.Column<string>(type: "text", nullable: true),
-                    PayoutAddress = table.Column<string>(type: "text", nullable: true),
-                    RequireEmail = table.Column<bool>(type: "boolean", nullable: false),
-                    ShortDescription = table.Column<string>(type: "text", nullable: true),
-                    Slug = table.Column<string>(type: "text", nullable: true),
-                    TelegramUrl = table.Column<string>(type: "text", nullable: true),
-                    TwitterUsername = table.Column<string>(type: "text", nullable: true),
-                    InstagramUsername = table.Column<string>(type: "text", nullable: true),
-                    WikiUrl = table.Column<string>(type: "text", nullable: true),
-                    IsNsfw = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_db_Collection", x => x.primary_key_Id);
-                    table.ForeignKey(
-                        name: "FK_db_Collection_CustomDisplayData_DisplayDataprimary_key_Id",
-                        column: x => x.DisplayDataprimary_key_Id,
-                        principalTable: "CustomDisplayData",
-                        principalColumn: "primary_key_Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CustomOwner",
-                columns: table => new
-                {
-                    primary_key_Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    Userprimary_key_Id = table.Column<int>(type: "integer", nullable: true),
-                    ProfileImgUrl = table.Column<string>(type: "text", nullable: true),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    Config = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomOwner", x => x.primary_key_Id);
-                    table.ForeignKey(
-                        name: "FK_CustomOwner_CustomUser_Userprimary_key_Id",
-                        column: x => x.Userprimary_key_Id,
-                        principalTable: "CustomUser",
-                        principalColumn: "primary_key_Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CustomAsset",
-                columns: table => new
-                {
-                    primary_key_Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Collectionprimary_key_Id = table.Column<int>(type: "integer", nullable: true),
+                    TokenId = table.Column<string>(type: "text", nullable: true),
                     Id = table.Column<int>(type: "integer", nullable: false),
                     NumSales = table.Column<int>(type: "integer", nullable: false),
                     BackgroundColor = table.Column<string>(type: "text", nullable: true),
@@ -337,30 +250,16 @@ namespace OpenSeaWebApi.Migrations
                     Name = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
                     ExternalLink = table.Column<string>(type: "text", nullable: true),
-                    AssetContractprimary_key_Id = table.Column<int>(type: "integer", nullable: true),
                     Permalink = table.Column<string>(type: "text", nullable: true),
                     Decimals = table.Column<int>(type: "integer", nullable: true),
                     TokenMetadata = table.Column<string>(type: "text", nullable: true),
-                    IsNsfw = table.Column<bool>(type: "boolean", nullable: true),
-                    Ownerprimary_key_Id = table.Column<int>(type: "integer", nullable: true),
-                    TokenId = table.Column<string>(type: "text", nullable: true),
-                    Collectionprimary_key_Id = table.Column<int>(type: "integer", nullable: true)
+                    IsNsfw = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomAsset", x => x.primary_key_Id);
+                    table.PrimaryKey("PK_Asset", x => x.primary_key_Id);
                     table.ForeignKey(
-                        name: "FK_CustomAsset_CustomAssetContract_AssetContractprimary_key_Id",
-                        column: x => x.AssetContractprimary_key_Id,
-                        principalTable: "CustomAssetContract",
-                        principalColumn: "primary_key_Id");
-                    table.ForeignKey(
-                        name: "FK_CustomAsset_CustomOwner_Ownerprimary_key_Id",
-                        column: x => x.Ownerprimary_key_Id,
-                        principalTable: "CustomOwner",
-                        principalColumn: "primary_key_Id");
-                    table.ForeignKey(
-                        name: "FK_CustomAsset_db_Collection_Collectionprimary_key_Id",
+                        name: "FK_Asset_db_Collection_Collectionprimary_key_Id",
                         column: x => x.Collectionprimary_key_Id,
                         principalTable: "db_Collection",
                         principalColumn: "primary_key_Id");
@@ -374,7 +273,7 @@ namespace OpenSeaWebApi.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Assetprimary_key_Id = table.Column<int>(type: "integer", nullable: true),
                     EventType = table.Column<string>(type: "text", nullable: true),
-                    EventTimestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EventTimestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     TotalPrice = table.Column<string>(type: "text", nullable: true),
                     Quantity = table.Column<string>(type: "text", nullable: true),
                     CollectionSlug = table.Column<string>(type: "text", nullable: true),
@@ -385,9 +284,9 @@ namespace OpenSeaWebApi.Migrations
                 {
                     table.PrimaryKey("PK_db_AssetEvent", x => x.primary_key_Id);
                     table.ForeignKey(
-                        name: "FK_db_AssetEvent_CustomAsset_Assetprimary_key_Id",
+                        name: "FK_db_AssetEvent_Asset_Assetprimary_key_Id",
                         column: x => x.Assetprimary_key_Id,
-                        principalTable: "CustomAsset",
+                        principalTable: "Asset",
                         principalColumn: "primary_key_Id");
                 });
 
@@ -429,34 +328,14 @@ namespace OpenSeaWebApi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomAsset_AssetContractprimary_key_Id",
-                table: "CustomAsset",
-                column: "AssetContractprimary_key_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomAsset_Collectionprimary_key_Id",
-                table: "CustomAsset",
+                name: "IX_Asset_Collectionprimary_key_Id",
+                table: "Asset",
                 column: "Collectionprimary_key_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomAsset_Ownerprimary_key_Id",
-                table: "CustomAsset",
-                column: "Ownerprimary_key_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomOwner_Userprimary_key_Id",
-                table: "CustomOwner",
-                column: "Userprimary_key_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_db_AssetEvent_Assetprimary_key_Id",
                 table: "db_AssetEvent",
                 column: "Assetprimary_key_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_db_Collection_DisplayDataprimary_key_Id",
-                table: "db_Collection",
-                column: "DisplayDataprimary_key_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_db_configUser_AppUser_id",
@@ -492,25 +371,13 @@ namespace OpenSeaWebApi.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "CustomAsset");
+                name: "Asset");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "CustomAssetContract");
-
-            migrationBuilder.DropTable(
-                name: "CustomOwner");
-
-            migrationBuilder.DropTable(
                 name: "db_Collection");
-
-            migrationBuilder.DropTable(
-                name: "CustomUser");
-
-            migrationBuilder.DropTable(
-                name: "CustomDisplayData");
         }
     }
 }

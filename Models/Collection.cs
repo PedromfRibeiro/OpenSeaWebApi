@@ -2,10 +2,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace OpenSeaWebApi.Models;
-public class CustomCollection
+public class Collection
 {
     [Key]
     public int primary_key_Id { get; set; }
+//    [JsonPropertyName("display_data")]
+//    public DisplayData? DisplayData { get; set; }
     public int Id { get; set; }
     [JsonPropertyName("banner_image_url")]
     public string? BannerImageUrl { get; set; }
@@ -30,10 +32,6 @@ public class CustomCollection
 
     [JsonPropertyName("discord_url")]
     public string? DiscordUrl { get; set; }
-
-    [JsonPropertyName("display_data")]
-    public CustomDisplayData? DisplayData { get; set; }
-
     [JsonPropertyName("external_url")]
     public string? ExternalUrl { get; set; }
 
@@ -100,3 +98,15 @@ public class CustomCollection
     [JsonPropertyName("is_nsfw")]
     public bool IsNsfw { get; set; }
 }
+
+
+// public class DisplayData
+// {
+//     [Key]
+//     public int primary_key_Id { get; set; }
+//     [JsonPropertyName("card_display_style")]
+//     public string? CardDisplayStyle { get; set; }
+// 
+//     [JsonPropertyName("images")]
+//     public string[]? Images { get; set; }
+// }
