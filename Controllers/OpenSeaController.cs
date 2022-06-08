@@ -103,9 +103,8 @@ public class OpenSeaController : BaseApiController
     {
         Minutes = Minutes + 60;
         var x = _dataContext.db_AssetEvent
-            .Where(x=>x.EventTimestamp <=  DateTime.Now & x.EventTimestamp >= DateTime.Now.AddMinutes(-Minutes))
+            .Where(x=>(x.EventTimestamp <=  DateTime.Now) & (x.EventTimestamp >= DateTime.Now.AddMinutes(-Minutes)))
             .GroupBy(x => new { x.CollectionSlug})
-            //.Join(_dataContext.db_Collection,)
             .Select(x => new teste
             {
                 CollectionSlug = x.Key.CollectionSlug,
@@ -127,7 +126,6 @@ public class OpenSeaController : BaseApiController
         var x = _dataContext.db_AssetEvent
             .Where(x=>x.EventTimestamp <=  DateTime.Now & x.EventTimestamp >= DateTime.Now.AddMinutes(-65))
             .GroupBy(x => new { x.CollectionSlug})
-            //.Join(_dataContext.db_Collection,)
             .Select(x => new teste
             {
                 CollectionSlug = x.Key.CollectionSlug,
