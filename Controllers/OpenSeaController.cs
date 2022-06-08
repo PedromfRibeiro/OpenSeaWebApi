@@ -41,7 +41,6 @@ public class OpenSeaController : BaseApiController
         {
             (obj, int result2) = await OpenSeaSave(obj.Next, occurred_after, occurred_before);
             result = result + result2;
-            occurred_before = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds().ToString();
         }
 
         return Ok("occurred_after: " + occurred_after + "\noccurred_before: " + occurred_before + "\nAdded:  " + result.ToString());
