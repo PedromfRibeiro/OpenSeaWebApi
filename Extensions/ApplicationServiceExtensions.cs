@@ -27,6 +27,7 @@ public static class ApplicationServiceExtensions
         Services.AddLogging();
         //Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(config.GetConnectionString("SqlServer")));
         Services.AddDbContext<DataContext>(opt => opt.UseNpgsql(config.GetConnectionString("HerokuPostgres")));
+        
         //Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase(databaseName: "database_name"));
 
         return Services;
