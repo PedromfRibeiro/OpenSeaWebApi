@@ -29,9 +29,10 @@ namespace OpenSeaWebApi.Middleware
                 context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 
                 //! This is to determine the error output dependent on whether it is DEV or Product Mode
-                var response = _env.IsDevelopment()
-                    ? new ApiException(context.Response.StatusCode, ex.Message, ex.StackTrace?.ToString())
-                    : new ApiException(context.Response.StatusCode, "Internal Server Error");
+                //var response = _env.IsDevelopment()
+                //    ? new ApiException(context.Response.StatusCode, ex.Message, ex.StackTrace?.ToString())
+                //    : new ApiException(context.Response.StatusCode, "Internal Server Error");
+                var response = new ApiException(context.Response.StatusCode, ex.Message, ex.StackTrace?.ToString());
 
                 var options = new JsonSerializerOptions{PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
 
