@@ -104,16 +104,16 @@ public class OpenSeaController : BaseApiController
 
     }
     [HttpGet, Route("x_minutesByMinutes")]
-    public List<teste> GetMinuteAddedSale(int Minutes)
+    public List<teste> GetMinuteAddedSale(int Minutes=1)
     {
+        Minutes = Minutes + 60;
         var x = _dataContext.db_AssetEvent
             .Where(x=>x.EventTimestamp <=  DateTime.Now & x.EventTimestamp >= DateTime.Now.AddMinutes(-Minutes))
-            .GroupBy(x => new { x.CollectionSlug, x.EventTimestamp.Minute })
+            .GroupBy(x => new { x.CollectionSlug})
             //.Join(_dataContext.db_Collection,)
             .Select(x => new teste
             {
                 CollectionSlug = x.Key.CollectionSlug,
-                Minute = x.Key.Minute,
                 mean_price = x.Average(a=> Convert.ToDouble(a.TotalPrice)),
                 total = x.Sum(a=>Convert.ToDouble(a.Quantity)),
                 NumResults = x.Count(),
