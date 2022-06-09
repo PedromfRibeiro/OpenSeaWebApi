@@ -28,12 +28,10 @@ public class OpenSeaController : BaseApiController
 
         if (DateTime.Equals(LastReceived, DateTime.Parse("01/01/0001 01:00:00")))
         {
-            LastReceived = DateTime.Now.AddMinutes(-1);
+            LastReceived = DateTime.UtcNow.AddMinutes(-1);
         }
         string occurred_after = ((DateTimeOffset)LastReceived).ToUnixTimeSeconds().ToString();
-        string occurred_before = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds().ToString();
-
-
+        string occurred_before = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds().ToString();
 
         (Event obj, int result) = await OpenSeaSave(null, occurred_after, occurred_before);
 
@@ -61,7 +59,6 @@ public class OpenSeaController : BaseApiController
     public async Task<Event?> GetOpenSea(string? next, string occurred_before, string occurred_after)
     {
         var client = new RestClient("https://api.opensea.io/api/v1");
-
 
         var request = new RestRequest("events", Method.Get);
         request.AddHeader("Accept", "application/json");
@@ -109,7 +106,7 @@ public class OpenSeaController : BaseApiController
     {
         Minutes = Minutes + 60;
         var x = _dataContext.db_AssetEvent
-            .Where(x => (x.EventTimestamp <=  DateTime.Now) & (x.EventTimestamp >= DateTime.Now.AddMinutes(-Minutes)) )
+            .Where(x => (x.EventTimestamp <=  DateTime.UtcNow) & (x.EventTimestamp >= DateTime.UtcNow.AddMinutes(-Minutes)) )
             .GroupBy(x => new {x.CollectionSlug})
             .Select(x => new teste
             {
