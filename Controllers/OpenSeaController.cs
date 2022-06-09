@@ -22,15 +22,15 @@ public class OpenSeaController : BaseApiController
         _openSeaRepository = openSeaRepository;
     }
     [HttpGet]
-    public async Task<ActionResult<string>> GetCollection()
+    public async Task<ActionResult<string>> GetCollection(int minutes = 1)
     {
-        DateTime LastReceived = _openSeaRepository.GetLastAddedSale();
-
-        if (DateTime.Equals(LastReceived, DateTime.Parse("01/01/0001 01:00:00")))
-        {
-            LastReceived = DateTime.UtcNow.AddMinutes(-1);
-        }
-        string occurred_after = ((DateTimeOffset)LastReceived).ToUnixTimeSeconds().ToString();
+        //DateTime LastReceived = _openSeaRepository.GetLastAddedSale();
+        //
+        //if (DateTime.Equals(LastReceived, DateTime.Parse("01/01/0001 01:00:00")))
+        //{
+        //    LastReceived = DateTime.UtcNow.AddMinutes(-1);
+        //}
+        string occurred_after = ((DateTimeOffset)DateTime.UtcNow.AddMinutes(minutes)).ToUnixTimeSeconds().ToString();
         string occurred_before = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds().ToString();
 
         (Event obj, int result) = await OpenSeaSave(null, occurred_after, occurred_before);
@@ -47,7 +47,6 @@ public class OpenSeaController : BaseApiController
     public async Task<ActionResult<string>> GetTimeZone( )
     {
         TimeZoneInfo localZone = TimeZoneInfo.Local;
-        string x = "Local Time Zone ID: " + localZone.Id + "\n" + "Display Name is: " + localZone.DisplayName + "\n" + "Standard name is: " + localZone.StandardName + "\n" + " Daylight saving name is: " + localZone.DaylightName;
         return Ok(localZone);
     }
     [NonAction]
