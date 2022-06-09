@@ -30,7 +30,7 @@ public class OpenSeaController : BaseApiController
         //{
         //    LastReceived = DateTime.UtcNow.AddMinutes(-1);
         //}
-        string occurred_after = ((DateTimeOffset)DateTime.UtcNow.AddMinutes(minutes)).ToUnixTimeSeconds().ToString();
+        string occurred_after = ((DateTimeOffset)DateTime.UtcNow.AddMinutes(-minutes)).ToUnixTimeSeconds().ToString();
         string occurred_before = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds().ToString();
 
         (Event obj, int result) = await OpenSeaSave(null, occurred_after, occurred_before);
