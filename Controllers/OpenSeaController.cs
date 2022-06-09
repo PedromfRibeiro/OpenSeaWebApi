@@ -43,6 +43,13 @@ public class OpenSeaController : BaseApiController
 
         return Ok("occurred_after: " + occurred_after + "\noccurred_before: " + occurred_before + "\nAdded:  " + result.ToString());
     }
+    [HttpGet, Route("GetTimeZone")]
+    public async Task<ActionResult<string>> GetTimeZone( )
+    {
+        TimeZoneInfo localZone = TimeZoneInfo.Local;
+        string x = "Local Time Zone ID: " + localZone.Id + "\n" + "Display Name is: " + localZone.DisplayName + "\n" + "Standard name is: " + localZone.StandardName + "\n" + " Daylight saving name is: " + localZone.DaylightName;
+        return Ok(localZone);
+    }
     [NonAction]
     public async Task<(Event, int)> OpenSeaSave(string? next, string occurred_after, string occurred_before)
     {

@@ -23,8 +23,7 @@ public class Startup
         services.AddControllers();
         services.AddCors();
         
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-        AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
