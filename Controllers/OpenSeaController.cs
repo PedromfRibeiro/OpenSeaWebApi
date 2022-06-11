@@ -24,14 +24,11 @@ public class OpenSeaController : BaseApiController
     [HttpGet]
     public async Task<ActionResult<string>> GetCollection(int minutes = 1)
     {
-        //DateTime LastReceived = _openSeaRepository.GetLastAddedSale();
-        //
-        //if (DateTime.Equals(LastReceived, DateTime.Parse("01/01/0001 01:00:00")))
-        //{
-        //    LastReceived = DateTime.UtcNow.AddMinutes(-1);
-        //}
-        string occurred_after = ((DateTimeOffset)DateTime.UtcNow.AddMinutes(-minutes)).ToUnixTimeSeconds().ToString();
-        string occurred_before = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds().ToString();
+        DateTime? LastReceived = _openSeaRepository.GetLastAddedSale();
+        DateTime date = LastReceived.Value;
+
+        string occurred_after = ((DateTimeOffset)date).ToUnixTimeSeconds().ToString();
+        string occurred_before  = ((DateTimeOffset)date.AddMinutes(minutes)).ToUnixTimeSeconds().ToString();
 
         (Event obj, int result) = await OpenSeaSave(null, occurred_after, occurred_before);
 
@@ -40,14 +37,32 @@ public class OpenSeaController : BaseApiController
             (obj, int result2) = await OpenSeaSave(obj.Next, occurred_after, occurred_before);
             result = result + result2;
         }
-
-        return Ok("occurred_after: " + occurred_after + "\noccurred_before: " + occurred_before + "\nAdded:  " + result.ToString());
+        return Ok(
+            "[  "+date+ "  ,  " + date.AddMinutes(minutes) + "   ]"+
+            "\nTimeStamp occurred_after: "   + occurred_after + 
+            "\nTimeStamp occurred_before: " + occurred_before + 
+            "\nTimeStamp occurred_after: "   + date + 
+            "\nTimeStamp occurred_before: " + date.AddMinutes(minutes) + 
+            "\nAdded:  " + result.ToString());
+    }
+    [HttpGet, Route("GetLastAddedSale")]
+    public ActionResult<DateTime> LastAddedSale()
+    {
+        DateTime? LastReceived = _openSeaRepository.GetLastAddedSale();
+        return Ok(LastReceived);
     }
     [HttpGet, Route("GetTimeZone")]
-    public async Task<ActionResult<string>> GetTimeZone( )
+    public async Task<ActionResult<string>> GetTimeZone()
     {
         TimeZoneInfo localZone = TimeZoneInfo.Local;
         return Ok(localZone);
+    }
+
+    [HttpGet, Route("TotalDuplicates")]
+    public ActionResult<String> TotalDuplicates()
+    {
+        int asd = _dataContext.db_AssetEvent.Select(x => new { x.Id, x.primary_key_Id }).GroupBy(a => new {a.primary_key_Id,a.Id}).Count();
+        return Ok("Total: "+_dataContext.db_AssetEvent.Count().ToString()+"\nTotal of groups: "+asd.ToString());
     }
     [NonAction]
     public async Task<(Event, int)> OpenSeaSave(string? next, string occurred_after, string occurred_before)

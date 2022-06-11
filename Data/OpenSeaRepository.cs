@@ -14,10 +14,13 @@ public class OpenSeaRepository : IOpenSeaRepository
         _mapper = mapper;
         _context = context;
     }
-
-    public DateTime GetLastAddedSale()
+    public DateTime? GetLastAddedSale()
     {
-        return _context.db_AssetEvent.Max(x=>(DateTime?)x.EventTimestamp).GetValueOrDefault();
+        DateTime? date = _context.db_AssetEvent.Max(date => (DateTime?)date.EventTimestamp);
+        if(date == null)
+            date = DateTime.UtcNow.AddMinutes(-1);
+            
+        return date;
 
     }
     public class teste
@@ -40,9 +43,5 @@ public class OpenSeaRepository : IOpenSeaRepository
         return x;
 
     }
-    public AssetEvent GetListOneMinute()
-    {
-        return _context.db_AssetEvent.SingleOrDefault();
 
-    }
 }
