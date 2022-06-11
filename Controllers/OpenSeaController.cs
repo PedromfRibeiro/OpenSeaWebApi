@@ -31,19 +31,23 @@ public class OpenSeaController : BaseApiController
         string occurred_before  = ((DateTimeOffset)date.AddMinutes(minutes)).ToUnixTimeSeconds().ToString();
 
         (Event obj, int result) = await OpenSeaSave(null, occurred_after, occurred_before);
-
+        int counted = obj.AssetEvents.Count();
+        
         while (obj.Next != null)
         {
             (obj, int result2) = await OpenSeaSave(obj.Next, occurred_after, occurred_before);
+            counted =+ obj.AssetEvents.Count();
             result = result + result2;
         }
         return Ok(
-            "[  "+date+ "  ,  " + date.AddMinutes(minutes) + "   ]"+
+            "[ "+date+ "  ,  " + date.AddMinutes(minutes) + " ]"+
             "\nTimeStamp occurred_after: "   + occurred_after + 
             "\nTimeStamp occurred_before: " + occurred_before + 
             "\nTimeStamp occurred_after: "   + date + 
             "\nTimeStamp occurred_before: " + date.AddMinutes(minutes) + 
-            "\nAdded:  " + result.ToString());
+            "\nSave dInto Database:  " + result.ToString()+
+            "\nNumber of events inside array:  " + counted.ToString());
+
     }
     [HttpGet, Route("GetLastAddedSale")]
     public ActionResult<DateTime> LastAddedSale()
