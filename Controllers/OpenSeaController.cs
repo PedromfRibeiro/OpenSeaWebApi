@@ -36,7 +36,7 @@ public class OpenSeaController : BaseApiController
         while (obj.Next != null)
         {
             (obj, int result2) = await OpenSeaSave(obj.Next, occurred_after, occurred_before);
-            counted =+ obj.AssetEvents.Count();
+            counted = counted + obj.AssetEvents.Count();
             result = result + result2;
         }
         return Ok(
