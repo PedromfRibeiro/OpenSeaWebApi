@@ -32,7 +32,7 @@ await host.RunAsync();
 
 IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
                     .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
-                    .ConfigureLogging(loggerFactory => loggerFactory.AddEventLog())
+                    //.ConfigureLogging(loggerFactory => loggerFactory.AddEventLog())
                     .ConfigureServices((hostContext, services) =>
                     {
                         services.AddHostedService<TimerServiceExtensions>();
