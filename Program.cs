@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OpenSeaWebApi;
 using OpenSeaWebApi.Data;
+using OpenSeaWebApi.Extensions;
 using OpenSeaWebApi.Models;
 
 var host = CreateHostBuilder(args).Build();
@@ -21,12 +22,18 @@ try
     }else{
         logger.LogInformation("Running in production mode!");
     }
-
 }
 catch (Exception ex)
 {
     logger.LogError(ex, "An error occurred durring migration");
 }
+
 await host.RunAsync();
 
-IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
+                    .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                    .ConfigureLogging(loggerFactory => loggerFactory.AddEventLog())
+                    .ConfigureServices((hostContext, services) =>
+                    {
+                        services.AddHostedService<TimerServiceExtensions>();
+                    });;

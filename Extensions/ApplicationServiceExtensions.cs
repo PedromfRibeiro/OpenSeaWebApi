@@ -12,7 +12,8 @@ public static class ApplicationServiceExtensions
     {
         Services = AddInterfacesScopes(Services);
         Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-        Services.AddSignalR();
+
+        //Services.AddSignalR();
 
         Services.AddControllers().AddNewtonsoftJson(o =>
         {
@@ -25,10 +26,14 @@ public static class ApplicationServiceExtensions
         });
 
         Services.AddLogging();
+
+        
         //Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(config.GetConnectionString("SqlServer")));
+        
         Services.AddDbContext<DataContext>(opt => opt.UseNpgsql(config.GetConnectionString("HerokuPostgres")));
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+        
         //Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase(databaseName: "database_name"));
 
         return Services;
