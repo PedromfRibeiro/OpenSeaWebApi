@@ -45,7 +45,7 @@ public class OpenSeaController : BaseApiController
     }
     
     [HttpGet, Route("GetTimeZone")]
-    public async Task<ActionResult<string>> GetTimeZone()
+    public ActionResult<string> GetTimeZone()
     {
         TimeZoneInfo localZone = TimeZoneInfo.Local;
         return Ok(localZone);

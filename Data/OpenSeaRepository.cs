@@ -17,11 +17,12 @@ public class OpenSeaRepository : IOpenSeaRepository
     }
     public DateTime GetLastAddedSale()
     {
-        DateTime date = _context.db_AssetEvent.Max(date => (DateTime)date.EventTimestamp);
-        if (date == null)
-            date = DateTime.UtcNow.AddMinutes(-1);
+        DateTime? date = _context.db_AssetEvent.Max(date => (DateTime?)date.EventTimestamp);
+        DateTime final_date = DateTime.UtcNow.AddMinutes(-1);
+        if (date != null)
+            final_date = (DateTime)date;
 
-        return date;
+        return final_date;
 
     }
     public List<StatsOutput> GetMinuteAddedSale(DateTime Start)
