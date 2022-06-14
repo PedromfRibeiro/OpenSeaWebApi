@@ -3,71 +3,11 @@ using OpenSeaWebApi.Models;
 
 namespace OpenSeaWebApi.Extensions;
 
-// public sealed class TimerServiceExtensions : IHostedService, IAsyncDisposable
-// {
-//     private readonly Task _completedTask = Task.CompletedTask;
-//     private readonly ILogger<TimerServiceExtensions> _logger;
-//     private int _executionCount = 0;
-//     private Timer? _timer;
-//     private readonly IServiceScopeFactory _serviceScopeFactory;
-
-//     public TimerServiceExtensions(ILogger<TimerServiceExtensions> logger,IServiceScopeFactory scopeFactory)
-//     {
-//         _logger = logger;
-//         _serviceScopeFactory = scopeFactory;
-//     }
-
-//     public async Task StartAsync(CancellationToken stoppingToken)
-//     {
-//         using var scope = _serviceScopeFactory.CreateScope();
-//         var _openSeaRepository = scope.ServiceProvider.GetRequiredService<IOpenSeaRepository>();
-
-//         _logger.LogWarning("{date} : {Service} is running.", DateTime.UtcNow.ToString() ,nameof(Extensions));
-
-//         _logger.LogWarning("{Service} is working, Added : {result:#,0}", nameof(Extensions), result);
-
-
-//         _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(50));
-
-//         return _completedTask;
-//     }
-
-//     private void DoWork(object? state)
-//     {
-//         int count = Interlocked.Increment(ref _executionCount);
-
-//         _logger.LogWarning("{Service} is working, execution count: {Count:#,0}", nameof(Extensions), count);
-//     }
-
-//     public Task StopAsync(CancellationToken stoppingToken)
-//     {
-//         _logger.LogWarning(
-//             "{Service} is stopping.", nameof(Extensions));
-
-//         _timer?.Change(Timeout.Infinite, 0);
-
-//         return _completedTask;
-//     }
-
-//     public async ValueTask DisposeAsync()
-//     {
-//         if (_timer is IAsyncDisposable timer)
-//         {
-//             await timer.DisposeAsync();
-//         }
-
-//         _timer = null;
-//     }
-
-// }
-
-
 
 public class TimerServiceExtensions : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<TimerServiceExtensions> _logger;
-    private Timer? _timer;
     public TimerServiceExtensions(IServiceScopeFactory serviceScopeFactory, ILogger<TimerServiceExtensions> logger)
     {
         _serviceScopeFactory = serviceScopeFactory;
