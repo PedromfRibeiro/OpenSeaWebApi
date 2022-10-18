@@ -5,6 +5,7 @@ using RestSharp;
 using OpenSeaWebApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace OpenSeaWebApi.Controllers;
 
@@ -13,6 +14,7 @@ public class OpenSeaController : BaseApiController
     private readonly IMapper _mapper;
     private readonly DataContext _dataContext;
     private readonly IOpenSeaRepository _openSeaRepository;
+    
 
 
     public OpenSeaController(IMapper mapper, DataContext dataContext, IOpenSeaRepository openSeaRepository)
@@ -20,6 +22,7 @@ public class OpenSeaController : BaseApiController
         _mapper = mapper;
         _dataContext = dataContext;
         _openSeaRepository = openSeaRepository;
+          
     }
     
     [HttpGet]

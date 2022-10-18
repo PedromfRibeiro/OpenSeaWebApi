@@ -10,10 +10,12 @@ public class OpenSeaRepository : IOpenSeaRepository
 
     private readonly DataContext _context;
     private readonly IMapper _mapper;
+    private string TokenKey { get; set; }
     public OpenSeaRepository(DataContext context, IMapper mapper)
     {
         _mapper = mapper;
         _context = context;
+        this.TokenKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build()["X-API-KEY"];  
     }
     public DateTime GetLastAddedSale()
     {
@@ -53,7 +55,7 @@ public class OpenSeaRepository : IOpenSeaRepository
 
         var request = new RestRequest("events", Method.Get);
         request.AddHeader("Accept", "application/json");
-        request.AddHeader("X-API-KEY", "564b70f8a92d4e97a39a68fdb2ab3b0a");
+        request.AddHeader("X-API-KEY", TokenKey);
         request.AddQueryParameter("event_type", "successful");
 
         if (occurred_after != null)

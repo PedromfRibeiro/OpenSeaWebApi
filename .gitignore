@@ -29,7 +29,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
@@ -639,3 +638,5 @@ packages/react-devtools-timeline/dist
 packages/*
 WebApi/.env
 Parser/.env
+appsettings.Development.json
+appsettings.json
